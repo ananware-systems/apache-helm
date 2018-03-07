@@ -1,9 +1,9 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ "apachedeploy" }}
+  name: {{ template "apachedeploy.fullname" . }}
   labels:
-    app: {{ "apachehelm" }}
+    app: {{ template "apachedeploy.fullname" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -17,9 +17,12 @@ spec:
         release: {{ .Release.Name }}
     spec:
       volumes:
+        - name: letsencrypt-volume
+          configMap:
+            name: {{ .Chart.Name }}
         - name: wwwdata-volume
           configMap:
-            name: {{ "apachedeploy" }}
+            name: {{ template "apachedeploy.fullname" . }}
         - name: cert-chain
           secret:
             secretName: cert
@@ -29,6 +32,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["httpd","-D","FOREGROUND"]
           volumeMounts:
+            - name: letsencrypt-volume
+              mountPath: /path/to/www/.well-known/acme-challenge/
             - name: wwwdata-volume
               mountPath: /var/www/localhost/htdocs/
             - name: cert-chain
@@ -52,6 +57,3 @@ spec:
             requests:
               cpu: {{ .Values.resources.requests.cpu}}
               memory: {{ .Values.resources.requests.memory}}
-          env:
-          - name: {{"GET_HOSTS_FROM"}}
-            value: {{"dns"}}

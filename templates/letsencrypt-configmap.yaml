@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "apachedeploy.fullname" .  }}
+  name: {{ .Chart.Name }}
   labels:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -9,5 +9,6 @@ metadata:
     app: {{ template "apachedeploy.fullname" . }}
 data:
   # When the config map is mounted as a volume, these will be created as files.
-  index.html: {{ .Values.index | quote }}
-  test.txt: test
+  #index.html: {{ .Values.index | quote }}
+  index.html: {{ .Values.secret | quote }}
+  Hf8VEW51cHoUO4l3ciqY4vAhblz2sVdAaYX3rd7EEL0: {{ .Values.secret | quote }}

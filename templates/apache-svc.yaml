@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ "apachesvc" }}
+  name: {{ template "apachedeploy.fullname" .  }}
   labels:
-    app: {{ "apachehelm" }}
+    app: {{ template "apachedeploy.fullname" .  }}
     tier: {{ .Values.service.frontend.selector.tier }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}

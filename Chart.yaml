@@ -1,4 +1,4 @@
-name: alpineApache
+name: apache-helm
 description: Deploy a basic Alpine-based apache http server 
 version: 0.1.0
 home: https://github.com/yahavb/apache-ananware
@@ -6,4 +6,4 @@ sources:
   - https://github.com/yahavb/apache-ananware
 maintainers:
    - name: Yahav Biran
-   - email: ybiran@ananware.systems
+     email: ybiran@ananware.systems
